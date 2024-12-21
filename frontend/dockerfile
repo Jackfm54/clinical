@@ -1,0 +1,16 @@
+FROM node:18
+
+WORKDIR /app
+
+# Copiez les fichiers nécessaires
+COPY package.json package-lock.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste de l'application
+COPY . .
+
+EXPOSE 8081
+
+CMD ["npm", "start"]

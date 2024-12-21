@@ -1,15 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
-const healthRoutes = require("./routes/healthRoutes");
+
+dotenv.config();
 
 connectDB();
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use("/api/users", userRoutes);
-app.use("/api/health", healthRoutes);
+// Rutas
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/health", require("./routes/healthRoutes"));
 
 module.exports = app;

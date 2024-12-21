@@ -13,6 +13,9 @@ app.use(bodyParser.json());
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/health", require("./routes/healthRoutes"));
 
+// Ruta de Ollama
+app.use("/api/ollama", require("./routes/ollamaRoutes"));
+
 // Nuevas rutas
 app.use("/api/recommendations", require("./routes/recommendationRoutes"));
 app.use("/api/social", require("./routes/socialInteractionRoutes"));

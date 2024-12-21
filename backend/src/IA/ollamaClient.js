@@ -1,24 +1,58 @@
-const axios = require("axios");
+const { spawn } = require("child_process");
 
-const ollamaClient = axios.create({
-  baseURL: "https://api.ollama.ai", // Modifiez si nécessaire
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+let ollamaProcess;
+let isModelRunning = false;
 
-// Effectuer une requête au modèle
-const queryOllama = async (input) => {
-  try {
-    const response = await ollamaClient.post("/query", {
-      model: "ollama-3.2", // Spécifiez le modèle
-      input,
+const startOllama = (model) => {
+  return new Promise((resolve, reject) => {
+    if (isModelRunning) {
+      resolve();
+      return;
+    }
+
+    ollamaProcess = spawn("ollama", ["run", model], { shell: true });
+
+    ollamaProcess.stdout.on("data", (data) => {
+      console.log(`Modelo iniciado: ${data}`);
+      isModelRunning = true;
+      resolve();
     });
-    return response.data;
-  } catch (error) {
-    console.error("Error querying Ollama:", error.message);
-    throw new Error("Failed to get response from Ollama.");
-  }
+
+    ollamaProcess.stderr.on("data", (data) => {
+      console.error(`Error al iniciar el modelo: ${data}`);
+      reject(new Error(data.toString()));
+    });
+
+    ollamaProcess.on("close", (code) => {
+      console.log(`Modelo cerrado con código: ${code}`);
+      isModelRunning = false;
+    });
+  });
 };
 
-module.exports = { queryOllama };
+const queryOllama = (input) => {
+  return new Promise((resolve, reject) => {
+    if (!isModelRunning || !ollamaProcess) {
+      reject(new Error("El modelo no está en ejecución."));
+      return;
+    }
+
+    ollamaProcess.stdin.write(`${input}\n`);
+
+    let response = "";
+
+    ollamaProcess.stdout.on("data", (data) => {
+      response += data.toString();
+      if (response.trim()) {
+        resolve(response.trim());
+      }
+    });
+
+    ollamaProcess.stderr.on("data", (data) => {
+      console.error(`Error al consultar el modelo: ${data}`);
+      reject(new Error(data.toString()));
+    });
+  });
+};
+
+module.exports = { startOllama, queryOllama };

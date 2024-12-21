@@ -1,4 +1,4 @@
-const { queryOllama } = require("../IA/ollamaClient");
+const { queryOllama } = require("../ia/ollamaClient");
 
 // Generar recomendaciones personalizadas
 const generateRecommendations = async (userPreferences) => {

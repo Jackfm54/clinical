@@ -1,8 +1,8 @@
 const express = require("express");
-const { saveHealthData } = require("../controllers/healthDataController");
+const { saveHealthData } = require("../controllers/HealthDataController");
 
 const router = express.Router();
 
 router.post("/", saveHealthData);
 
-module.exports = router; // Vérifiez que ceci est correct
+module.exports = router;

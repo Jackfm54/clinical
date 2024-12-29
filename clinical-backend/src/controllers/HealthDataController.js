@@ -1,6 +1,6 @@
 const HealthData = require("../models/healthData");
 const { inferRisk } = require("../services/aiServices");
-const { sendNotification } = require("../services/socketServices");
+const { sendNotification } = require("../services/socketService");
 
 const saveHealthDataWithAlert = async (data) => {
   const healthData = await saveHealthDataWithAnalysis(data);

@@ -7,6 +7,7 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const healthDataRoutes = require("./routes/healthDataRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const { initSocket } = require("./services/socketService");
 
@@ -24,6 +25,7 @@ connectDB();
 app.use("/api/users", userRoutes);
 app.use("/api/health-data", healthDataRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Créer un serveur HTTP pour socket.io
 const server = http.createServer(app);

@@ -28,3 +28,23 @@ export const saveHealthData = async (healthData) => {
     throw error;
   }
 };
+
+export const fetchUsers = async () => {
+  try {
+    const response = await api.get("/users");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const fetchHealthDataByUser = async (userId) => {
+  try {
+    const response = await api.get(`/health-data/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching health data:", error.response?.data || error.message);
+    throw error;
+  }
+};

@@ -2,20 +2,20 @@ const { spawn } = require("child_process");
 
 const inferRisk = async (healthData) => {
   try {
-    // Construir el mensaje del prompt
+    // Construir el prompt con los datos médicos
     const prompt = `Classify the health risk based on the following metrics: 
       - Heart Rate: ${healthData.heartRate}
       - Blood Pressure: ${healthData.bloodPressure}
       - Oxygen Level: ${healthData.oxygenLevel}`;
 
-    // Ejecutar Ollama con spawn
-    const command = spawn("ollama", ["run", "llama3.2"]);
+    // Ejecutar el modelo `medichat-llama3` localmente con Ollama
+    const command = spawn("ollama", ["run", "monotykamary/medichat-llama3"]);
 
     // Escribir el prompt en la entrada estándar
     command.stdin.write(prompt);
     command.stdin.end();
 
-    // Capturar la salida del modelo
+    // Capturar la salida
     let output = "";
     for await (const chunk of command.stdout) {
       output += chunk;
@@ -27,7 +27,6 @@ const inferRisk = async (healthData) => {
       errorOutput += chunk;
     }
 
-    // Manejar errores si existen
     if (errorOutput) {
       throw new Error(`Ollama error: ${errorOutput}`);
     }

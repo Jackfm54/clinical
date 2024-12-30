@@ -1,18 +1,23 @@
 let io;
 
-const initSocket = (server) => {
-  const { Server } = require("socket.io");
-  io = new Server(server, {
-    cors: {
-      origin: "*",
-    },
-  });
+const initSocket = (serverIo) => {
+  io = serverIo;
 
+  // Escuchar eventos de conexión
   io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+    console.log("WebSocket connected:", socket.id);
 
+    // Escuchar eventos personalizados (puedes agregar más si es necesario)
+    socket.on("sendMessage", (message) => {
+      console.log("Message received:", message);
+
+      // Emitir notificación a todos los clientes
+      io.emit("notification", { message });
+    });
+
+    // Manejar desconexión
     socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
+      console.log("WebSocket disconnected:", socket.id);
     });
   });
 };

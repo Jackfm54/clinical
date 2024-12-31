@@ -14,6 +14,11 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [healthData, setHealthData] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [newHealthData, setNewHealthData] = useState({
+    heartRate: "",
+    bloodPressure: "",
+    oxygenLevel: "",
+  });
 
   useEffect(() => {
     // Verificar si el usuario está logueado
@@ -46,6 +51,28 @@ const Dashboard = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewHealthData({ ...newHealthData, [name]: value });
+  };
+
+  const handleSubmitHealthData = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.post("/health-data", {
+        ...newHealthData,
+        userId: user.id,
+      });
+      setHealthData((prev) => [...prev, response.data.healthData]);
+      setNewHealthData({ heartRate: "", bloodPressure: "", oxygenLevel: "" });
+      alert("Health data saved successfully!");
+    } catch (error) {
+      console.error("Failed to save health data:", error);
+      alert("Failed to save health data. Please try again.");
+    }
+  };
+
   return (
     <div className="dashboard-container">
       {user ? (
@@ -54,8 +81,44 @@ const Dashboard = () => {
           <p>Your email: {user.email}</p>
           <LogoutButton />
 
-          {/* Mostrar datos de salud */}
-          <h3>Your Health Data</h3>
+          {/* Formulario para registrar nuevas métricas */}
+          <h3>Register Your Health Data</h3>
+          <form onSubmit={handleSubmitHealthData} className="health-data-form">
+            <label>
+              Heart Rate (bpm):
+              <input
+                type="number"
+                name="heartRate"
+                value={newHealthData.heartRate}
+                onChange={handleInputChange}
+                required
+              />
+            </label>
+            <label>
+              Blood Pressure (e.g., 120/80):
+              <input
+                type="text"
+                name="bloodPressure"
+                value={newHealthData.bloodPressure}
+                onChange={handleInputChange}
+                required
+              />
+            </label>
+            <label>
+              Oxygen Level (%):
+              <input
+                type="number"
+                name="oxygenLevel"
+                value={newHealthData.oxygenLevel}
+                onChange={handleInputChange}
+                required
+              />
+            </label>
+            <button type="submit">Save Data</button>
+          </form>
+
+          {/* Mostrar historial de datos de salud */}
+          <h3>Your Health Data History</h3>
           {healthData.length > 0 ? (
             <ul className="health-data-list">
               {healthData.map((data) => (

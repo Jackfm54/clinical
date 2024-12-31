@@ -3,7 +3,7 @@ const fs = require("fs");
 
 (async () => {
   const datasetPath =
-    "C:/Users/jackf/Desktop/clinical/clinical-backend/src/datasets/healthData.json"; // Ruta relativa desde `services/`
+    "C:/Users/jackf/Desktop/hopitalIA/clinical-backend/src/datasets/healthData.json"; // Ruta relativa desde `services/`
   const healthData = JSON.parse(fs.readFileSync(datasetPath, "utf8"));
 
   for (const data of healthData) {

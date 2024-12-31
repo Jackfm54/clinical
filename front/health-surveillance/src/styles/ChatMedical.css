@@ -1,39 +1,46 @@
-.chat-medical {
-  margin-top: 20px;
-  padding: 15px;
+.medical-chat-container {
+  margin: 20px 0;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
-.chat-medical form {
+.medical-chat-form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-.chat-medical label {
-  margin-bottom: 10px;
+.medical-chat-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.chat-medical input {
-  margin-top: 5px;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.chat-medical button {
-  margin-top: 10px;
+.medical-chat-form button {
   padding: 10px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.chat-medical button:disabled {
-  background-color: #ccc;
+.medical-chat-form button:hover {
+  background-color: #0056b3;
 }
 
-.recommendations {
+.medical-chat-response {
   margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #28a745;
+  border-radius: 4px;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.medical-chat-error {
+  color: red;
+  margin-top: 10px;
 }

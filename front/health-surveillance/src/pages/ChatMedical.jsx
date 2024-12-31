@@ -19,15 +19,17 @@ const ChatMedical = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const response = await api.post("/chat", { healthData });
-      setRecommendations(response.data.recommendations);
-    } catch (error) {
-      console.error("Error fetching recommendations:", error.response?.data || error.message);
-      setRecommendations("Unable to fetch recommendations at this time.");
-    } finally {
-      setLoading(false);
-    }
+   try {
+    console.log("Sending health data:", healthData); // Log de datos enviados
+    const response = await api.post("/chat", { healthData });
+    console.log("Received recommendations:", response.data); // Log de respuesta
+    setRecommendations(response.data.recommendations);
+  } catch (error) {
+    console.error("Error fetching recommendations:", error.response?.data || error.message);
+    setRecommendations("Unable to fetch recommendations at this time.");
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (

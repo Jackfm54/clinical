@@ -22,6 +22,6 @@ const evaluateModel = async (testData) => {
 };
 
 const datasetPath =
-  "C:/Users/jackf/Desktop/clinical/clinical-backend/src/datasets/healthData.json"; // Ruta relativa desde `services/`
+  "C:/Users/jackf/Desktop/hopitalIA/clinical-backend/src/datasets/healthData.json"; // Ruta relativa desde `services/`
 const testData = JSON.parse(fs.readFileSync(datasetPath, "utf8"));
 evaluateModel(testData);

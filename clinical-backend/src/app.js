@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
 require("dotenv").config();
@@ -8,28 +7,30 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const healthDataRoutes = require("./routes/healthDataRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const { initSocket } = require("./services/socketService");
 
-// Initialisation
+// Inicialización de la aplicación
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json()); // Analiza JSON en las solicitudes
 
-// Connexion à la base de données
+// Conexión a la base de datos
 connectDB();
 
-// Routes
+// Rutas
 app.use("/api/users", userRoutes);
 app.use("/api/health-data", healthDataRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/chat", chatRoutes); // Ruta para chat médico
 
-// Créer un serveur HTTP pour socket.io
+// Crear un servidor HTTP para socket.io
 const server = http.createServer(app);
-initSocket(server);
+initSocket(server); // Inicializar sockets
 
-// Serveur
+// Configuración del servidor
 const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

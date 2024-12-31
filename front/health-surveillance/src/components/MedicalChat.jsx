@@ -3,78 +3,38 @@ import { api } from "../services/api";
 import "../styles/ChatMedical.css";
 
 const ChatMedical = () => {
-  const [healthData, setHealthData] = useState({
-    heartRate: "",
-    bloodPressure: "",
-    oxygenLevel: "",
-  });
-  const [recommendations, setRecommendations] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setHealthData({ ...healthData, [name]: value });
-  };
+  const [question, setQuestion] = useState("");
+  const [response, setResponse] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setError("");
+    setResponse("");
+
     try {
-      const response = await api.post("/chat", { healthData });
-      setRecommendations(response.data.recommendations);
-    } catch (error) {
-      console.error("Error fetching recommendations:", error);
-      setRecommendations("Unable to fetch recommendations at this time.");
-    } finally {
-      setLoading(false);
+      const res = await api.post("/chat", { question });
+      setResponse(res.data.recommendations);
+    } catch (err) {
+      console.error("Error fetching response:", err);
+      setError("Unable to fetch recommendations at this time.");
     }
   };
 
   return (
-    <div className="chat-medical">
-      <h3>Medical Chat</h3>
+    <div>
       <form onSubmit={handleSubmit}>
-        <label>
-          Heart Rate:
-          <input
-            type="number"
-            name="heartRate"
-            value={healthData.heartRate}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Blood Pressure:
-          <input
-            type="text"
-            name="bloodPressure"
-            value={healthData.bloodPressure}
-            onChange={handleInputChange}
-            placeholder="e.g., 120/80"
-            required
-          />
-        </label>
-        <label>
-          Oxygen Level:
-          <input
-            type="number"
-            name="oxygenLevel"
-            value={healthData.oxygenLevel}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Get Recommendations"}
-        </button>
+        <input
+          type="text"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Ask your medical question..."
+          required
+        />
+        <button type="submit">Send</button>
       </form>
-      {recommendations && (
-        <div className="recommendations">
-          <h4>Recommendations:</h4>
-          <p>{recommendations}</p>
-        </div>
-      )}
+      {response && <p>Response: {response}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

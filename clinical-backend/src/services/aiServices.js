@@ -7,7 +7,7 @@ const { exec } = require("child_process");
  * @param {string} [options.model="monotykamary/medichat-llama3"] - Modelo a ejecutar.
  * @returns {Promise<string>} - Respuesta del modelo.
  */
-const inferRisk = async ({ prompt, model = "monotykamary/medichat-llama3" }) => {
+const inferRisk = async ({ prompt, model = "ALIENTELLIGENCE/medicaldiagnostictools" }) => {
   return new Promise((resolve, reject) => {
     console.log("Executing model:", model);
     console.log("Prompt being sent:", prompt);

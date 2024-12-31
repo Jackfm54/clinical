@@ -4,7 +4,7 @@ const { inferRisk } = require("./aiServices");
   try {
     const response = await inferRisk({
       prompt: "What are the symptoms of hypertension?",
-      model: "monotykamary/medichat-llama3",
+      model: "ALIENTELLIGENCE/medicaldiagnostictools",
     });
 
     console.log("AI Response:", response);

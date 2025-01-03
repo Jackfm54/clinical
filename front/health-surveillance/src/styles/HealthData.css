@@ -72,3 +72,53 @@
 .user-list li:last-child {
 	border-bottom: none;
 }
+
+@media screen and (max-width: 768px) {
+	.health-data {
+		max-width: 100%;
+		padding: 1rem;
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.health-data h2,
+	.health-data h3 {
+		font-size: 1.5rem;
+		color: #388e3c;
+	}
+
+	.health-data form {
+		gap: 10px;
+		margin-bottom: 1rem;
+	}
+
+	.health-data label {
+		font-size: 0.9rem;
+	}
+
+	.health-data input {
+		padding: 0.6rem;
+		font-size: 0.9rem;
+	}
+
+	.health-data button {
+		padding: 0.6rem;
+		font-size: 0.9rem;
+	}
+
+	.search-box {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.user-list {
+		border: none;
+		border-radius: 0;
+	}
+
+	.user-list li {
+		padding: 0.6rem;
+		font-size: 0.9rem;
+	}
+}

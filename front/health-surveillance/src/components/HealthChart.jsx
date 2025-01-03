@@ -10,23 +10,21 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import "../styles/HealthChart.css";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const HealthChart = ({ healthData, averages }) => {
-  // Formatear las fechas
   const formattedDates = healthData.map((data) =>
     new Date(data.createdAt).toLocaleDateString()
   );
 
-  // Extraer valores para cada métrica
   const heartRates = healthData.map((data) => data.heartRate);
   const systolicPressures = healthData.map((data) =>
     parseInt(data.bloodPressure.split("/")[0])
-  ); // Extraer solo la sistólica
+  );
   const oxygenLevels = healthData.map((data) => data.oxygenLevel);
 
-  // Datos para el gráfico
   const chartData = {
     labels: formattedDates,
     datasets: [
@@ -80,21 +78,49 @@ const HealthChart = ({ healthData, averages }) => {
     ],
   };
 
-  // Opciones para el gráfico
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          font: {
+            size: 12,
+          },
+        },
       },
       title: {
         display: true,
         text: "Health Metrics Over Time",
+        font: {
+          size: 16,
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 10,
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 10,
+          },
+        },
       },
     },
   };
 
-  return <Line data={chartData} options={chartOptions} />;
+  return (
+    <div className="chart-container">
+      <Line data={chartData} options={chartOptions} />
+    </div>
+  );
 };
 
 export default HealthChart;

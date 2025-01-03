@@ -20,9 +20,9 @@ const ChatMedical = () => {
     e.preventDefault();
     setLoading(true);
    try {
-    console.log("Sending health data:", healthData); // Log de datos enviados
+    console.log("Sending health data:", healthData);
     const response = await api.post("/chat", { healthData });
-    console.log("Received recommendations:", response.data); // Log de respuesta
+    console.log("Received recommendations:", response.data);
     setRecommendations(response.data.recommendations);
   } catch (error) {
     console.error("Error fetching recommendations:", error.response?.data || error.message);

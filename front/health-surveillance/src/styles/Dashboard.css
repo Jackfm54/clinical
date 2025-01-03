@@ -32,16 +32,16 @@
 	border-radius: 8px;
 	background-color: #f9f9f9;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .health-data-form label {
+}
+
+.health-data-form label {
 	font-size: 14px;
 	font-weight: bold;
 	color: #333;
 	margin-bottom: 5px;
-  }
-  
-  .health-data-form input {
+}
+
+.health-data-form input {
 	width: 100%;
 	padding: 10px;
 	font-size: 14px;
@@ -50,13 +50,13 @@
 	box-sizing: border-box;
 	outline: none;
 	transition: border-color 0.3s;
-  }
-  
-  .health-data-form input:focus {
+}
+
+.health-data-form input:focus {
 	border-color: #007bff;
-  }
-  
-  .health-data-form button {
+}
+
+.health-data-form button {
 	padding: 10px 15px;
 	font-size: 16px;
 	font-weight: bold;
@@ -66,16 +66,16 @@
 	border-radius: 4px;
 	cursor: pointer;
 	transition: background-color 0.3s;
-  }
-  
-  .health-data-form button:hover {
+}
+
+.health-data-form button:hover {
 	background-color: #0056b3;
-  }
-  
-  .health-data-form button:disabled {
+}
+
+.health-data-form button:disabled {
 	background-color: #ccc;
 	cursor: not-allowed;
-  }  
+}
 
 .dashboard-container .health-data-list {
 	list-style-type: none;
@@ -168,4 +168,83 @@
 
 .pagination span {
 	font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+	.dashboard-container {
+		max-width: 100%;
+		margin: 0;
+		padding: 1rem;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.dashboard-container h2 {
+		font-size: 1.8rem;
+	}
+
+	.dashboard-container p {
+		font-size: 1rem;
+	}
+
+	.health-data-form {
+		max-width: 100%;
+		padding: 15px;
+		border: none;
+		box-shadow: none;
+	}
+
+	.health-data-form label {
+		font-size: 13px;
+	}
+
+	.health-data-form input {
+		font-size: 14px;
+		padding: 8px;
+	}
+
+	.health-data-form button {
+		font-size: 14px;
+		padding: 8px 12px;
+	}
+
+	.dashboard-container .health-data-list {
+		border: none;
+		border-radius: 0;
+		margin-top: 1rem;
+	}
+
+	.dashboard-container .health-data-list li {
+		padding: 0.8rem;
+		font-size: 0.9rem;
+	}
+
+	.dashboard-container h3 {
+		font-size: 1.3rem;
+	}
+
+	.dashboard-container .logout-container {
+		margin-top: 1.5rem;
+	}
+
+	.dashboard-container button {
+		font-size: 0.9rem;
+		padding: 0.6rem 1rem;
+		border-radius: 3px;
+	}
+
+	.pagination {
+		flex-direction: column;
+		gap: 5px;
+	}
+
+	.pagination button {
+		font-size: 12px;
+		padding: 6px 10px;
+		border-radius: 3px;
+	}
+
+	.pagination span {
+		font-size: 0.9rem;
+	}
 }

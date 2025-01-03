@@ -4,9 +4,7 @@ import { api } from "../services/api";
 import LogoutButton from "../components/LogoutButton";
 import "../styles/Dashboard.css";
 import io from "socket.io-client";
-import Chat from "../components/Chat";
-
-// import MedicalChat from "../components/MedicalChat";
+import MedicalChat from "../components/MedicalChat";
 
 // Configuración de socket.io
 const socket = io("http://localhost:5001");
@@ -157,10 +155,8 @@ const Dashboard = () => {
             <p>No notifications available</p>
           )}
 
-          {/* <MedicalChat /> */}
-
-          <h3>Medical Chat</h3>
-          <Chat />
+          {/* Integrar Chat Médico */}
+          <MedicalChat />
         </>
       ) : (
         <p>Loading...</p>

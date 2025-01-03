@@ -2,7 +2,7 @@ const express = require("express");
 const { getMedicalChatResponse } = require("../controllers/chatControllers");
 const router = express.Router();
 
-// Ruta para manejar solicitudes al chat médico
+// Endpoint para obtener recomendaciones médicas
 router.post("/", getMedicalChatResponse);
 
 module.exports = router;

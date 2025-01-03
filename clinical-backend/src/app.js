@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const http = require("http"); // Importar para crear el servidor HTTP
-const { Server } = require("socket.io"); // Importar para integrar Socket.IO
+const http = require("http");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -14,7 +13,7 @@ const { initSocket } = require("./services/socketService");
 // Inicialización de la aplicación
 const app = express();
 
-// Configuración de middlewares
+// Middleware
 app.use(cors());
 app.use(express.json()); // Analiza JSON en las solicitudes
 
@@ -24,7 +23,6 @@ connectDB();
 // Rutas
 app.use("/api/users", userRoutes);
 app.use("/api/health-data", healthDataRoutes);
-app.use("/api/chat", chatRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/chat", chatRoutes); // Ruta para chat médico
 

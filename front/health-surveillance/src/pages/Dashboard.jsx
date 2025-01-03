@@ -155,7 +155,8 @@ const Dashboard = () => {
                       <strong>Oxygen Level:</strong> {data.oxygenLevel}%
                     </p>
                     <p>
-                      <strong>Date:</strong> {new Date(data.createdAt).toLocaleString()}
+                      <strong>Date:</strong>{" "}
+                      {new Date(data.createdAt).toLocaleString()}
                     </p>
                   </li>
                 ))}
@@ -167,11 +168,14 @@ const Dashboard = () => {
                   Previous
                 </button>
                 <span>
-                  Page {currentPage} of {Math.ceil(healthData.length / itemsPerPage)}
+                  Page {currentPage} of{" "}
+                  {Math.ceil(healthData.length / itemsPerPage)}
                 </span>
                 <button
                   onClick={nextPage}
-                  disabled={currentPage === Math.ceil(healthData.length / itemsPerPage)}
+                  disabled={
+                    currentPage === Math.ceil(healthData.length / itemsPerPage)
+                  }
                 >
                   Next
                 </button>
@@ -186,10 +190,12 @@ const Dashboard = () => {
           {predictions ? (
             <div className="predictions">
               <p>
-                <strong>Next Heart Rate:</strong> {predictions.regression.nextHeartRate} bpm
+                <strong>Next Heart Rate:</strong>{" "}
+                {predictions.regression.nextHeartRate} bpm
               </p>
               <p>
-                <strong>Next Oxygen Level:</strong> {predictions.regression.nextOxygenLevel}%
+                <strong>Next Oxygen Level:</strong>{" "}
+                {predictions.regression.nextOxygenLevel}%
               </p>
               <p>
                 <strong>Risk Level:</strong> {predictions.classification}
@@ -207,7 +213,7 @@ const Dashboard = () => {
           )}
 
           {/* Integrar Chat Médico */}
-          <h3>ChatBot</h3>
+          <h3>ChatMedical</h3>
           <MedicalChat />
         </>
       ) : (

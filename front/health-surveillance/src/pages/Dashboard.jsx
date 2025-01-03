@@ -143,23 +143,26 @@ const Dashboard = () => {
           {healthData.length > 0 ? (
             <>
               <ul className="health-data-list">
-                {currentItems.map((data) => (
-                  <li key={data._id}>
-                    <p>
-                      <strong>Heart Rate:</strong> {data.heartRate} bpm
-                    </p>
-                    <p>
-                      <strong>Blood Pressure:</strong> {data.bloodPressure}
-                    </p>
-                    <p>
-                      <strong>Oxygen Level:</strong> {data.oxygenLevel}%
-                    </p>
-                    <p>
-                      <strong>Date:</strong>{" "}
-                      {new Date(data.createdAt).toLocaleString()}
-                    </p>
-                  </li>
-                ))}
+                {healthData
+                  .slice()
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .slice(indexOfFirstItem, indexOfLastItem)
+                  .map((data) => (
+                    <li key={data._id}>
+                      <p>
+                        <strong>Heart Rate:</strong> {data.heartRate} bpm
+                      </p>
+                      <p>
+                        <strong>Blood Pressure:</strong> {data.bloodPressure}
+                      </p>
+                      <p>
+                        <strong>Oxygen Level:</strong> {data.oxygenLevel}%
+                      </p>
+                      <p>
+                        <strong>Date:</strong> {new Date(data.createdAt).toLocaleString()}
+                      </p>
+                    </li>
+                  ))}
               </ul>
 
               {/* Paginador */}
@@ -168,14 +171,11 @@ const Dashboard = () => {
                   Previous
                 </button>
                 <span>
-                  Page {currentPage} of{" "}
-                  {Math.ceil(healthData.length / itemsPerPage)}
+                  Page {currentPage} of {Math.ceil(healthData.length / itemsPerPage)}
                 </span>
                 <button
                   onClick={nextPage}
-                  disabled={
-                    currentPage === Math.ceil(healthData.length / itemsPerPage)
-                  }
+                  disabled={currentPage === Math.ceil(healthData.length / itemsPerPage)}
                 >
                   Next
                 </button>

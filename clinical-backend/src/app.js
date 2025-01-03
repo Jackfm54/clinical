@@ -24,7 +24,7 @@ connectDB();
 app.use("/api/users", userRoutes);
 app.use("/api/health-data", healthDataRoutes);
 app.use("/api/ai", aiRoutes);
-app.use("/api/chat", chatRoutes); // Ruta para chat médico
+app.use("/api/chat", chatRoutes);
 
 // Crear un servidor HTTP para socket.io
 const server = http.createServer(app);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import LogoutButton from "../components/LogoutButton";
+import HealthChart from "../components/HealthChart";
 import "../styles/Dashboard.css";
 import io from "socket.io-client";
 import MedicalChat from "../components/MedicalChat";
@@ -13,6 +14,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [healthData, setHealthData] = useState([]);
+  const [predictions, setPredictions] = useState(null); // Para guardar predicciones
   const [notifications, setNotifications] = useState([]);
   const [newHealthData, setNewHealthData] = useState({
     heartRate: "",
@@ -41,6 +43,12 @@ const Dashboard = () => {
     }
   };
 
+  const averages = {
+    averageHeartRate: 80,
+    averageBloodPressure: "120/80",
+    averageOxygenLevel: 98,
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
@@ -64,6 +72,12 @@ const Dashboard = () => {
     try {
       const response = await api.get(`/health-data/${userId}`);
       setHealthData(response.data);
+
+      // Solicitar predicciones al backend
+      const predictionResponse = await api.post("/ai/predict", {
+        healthData: response.data,
+      });
+      setPredictions(predictionResponse.data); // Guardar predicciones
     } catch (error) {
       console.error("Failed to fetch health data:", error);
     }
@@ -177,18 +191,33 @@ const Dashboard = () => {
             <p>No health data available</p>
           )}
 
-          <h3>Notifications</h3>
-          {notifications.length > 0 ? (
-            <ul>
-              {notifications.map((notif, index) => (
-                <li key={index}>{notif.message}</li>
-              ))}
-            </ul>
+          {/* Mostrar predicciones */}
+          <h3>Predictions</h3>
+          {predictions ? (
+            <div className="predictions">
+              <p>
+                <strong>Next Heart Rate:</strong> {predictions.regression.nextHeartRate} bpm
+              </p>
+              <p>
+                <strong>Next Oxygen Level:</strong> {predictions.regression.nextOxygenLevel}%
+              </p>
+              <p>
+                <strong>Risk Level:</strong> {predictions.classification}
+              </p>
+            </div>
           ) : (
-            <p>No notifications available</p>
+            <p>Loading predictions...</p>
+          )}
+
+          {/* Integrar Grafico Médico */}
+          {healthData.length > 0 ? (
+            <HealthChart healthData={healthData} averages={averages} />
+          ) : (
+            <p>Loading health data...</p>
           )}
 
           {/* Integrar Chat Médico */}
+          <h3>ChatBot</h3>
           <MedicalChat />
         </>
       ) : (

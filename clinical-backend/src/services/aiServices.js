@@ -27,4 +27,27 @@ const inferRisk = async ({ prompt, model = "ALIENTELLIGENCE/medicaldiagnostictoo
   });
 };
 
-module.exports = { inferRisk };
+const regression = (healthData) => {
+  const heartRates = healthData.map((d) => d.heartRate);
+  const avgHeartRate = heartRates.reduce((a, b) => a + b, 0) / heartRates.length;
+
+  const oxygenLevels = healthData.map((d) => d.oxygenLevel);
+  const avgOxygenLevel = oxygenLevels.reduce((a, b) => a + b, 0) / oxygenLevels.length;
+
+  return {
+    nextHeartRate: avgHeartRate,
+    nextOxygenLevel: avgOxygenLevel,
+  };
+};
+
+const classifyRisk = (data) => {
+  if (data.heartRate > 120 || data.bloodPressure.includes("140/100")) {
+    return "High Risk";
+  } else if (data.heartRate > 90 || data.oxygenLevel < 92) {
+    return "Moderate Risk";
+  } else {
+    return "Low Risk";
+  }
+};
+
+module.exports = { inferRisk, regression, classifyRisk };

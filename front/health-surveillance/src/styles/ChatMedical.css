@@ -57,3 +57,30 @@
   background-color: #f1f1f1;
   text-align: left;
 }
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.message-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-message {
+  background-color: #e6f7ff;
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.bot-message {
+  background-color: #f1f1f1;
+  text-align: left;
+  justify-content: flex-start;
+}

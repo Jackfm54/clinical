@@ -21,6 +21,62 @@
 	color: #555;
 }
 
+.health-data-form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	max-width: 400px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .health-data-form label {
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 5px;
+  }
+  
+  .health-data-form input {
+	width: 100%;
+	padding: 10px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	outline: none;
+	transition: border-color 0.3s;
+  }
+  
+  .health-data-form input:focus {
+	border-color: #007bff;
+  }
+  
+  .health-data-form button {
+	padding: 10px 15px;
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	background-color: #007bff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+  }
+  
+  .health-data-form button:hover {
+	background-color: #0056b3;
+  }
+  
+  .health-data-form button:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+  }  
+
 .dashboard-container .health-data-list {
 	list-style-type: none;
 	padding: 0;

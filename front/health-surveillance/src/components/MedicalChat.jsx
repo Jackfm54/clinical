@@ -6,15 +6,14 @@ const ChatMedical = () => {
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // Para manejar "Cargando..."
-  const [conversation, setConversation] = useState([]); // Historial de conversación
+  const [loading, setLoading] = useState(false);
+  const [conversation, setConversation] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true); // Activar "Cargando..."
+    setLoading(true);
 
-    // Agregar la pregunta al historial antes de enviar
     const newMessage = { sender: "user", text: question };
     setConversation((prev) => [...prev, newMessage]);
 
@@ -22,7 +21,6 @@ const ChatMedical = () => {
       const res = await api.post("/chat", { question });
       const botResponse = res.data.recommendations;
 
-      // Agregar la respuesta del bot al historial
       const botMessage = { sender: "bot", text: botResponse };
       setConversation((prev) => [...prev, botMessage]);
 
@@ -31,8 +29,8 @@ const ChatMedical = () => {
       console.error("Error fetching response:", err);
       setError("Unable to fetch recommendations at this time.");
     } finally {
-      setLoading(false); // Desactivar "Cargando..."
-      setQuestion(""); // Limpiar el campo de texto
+      setLoading(false);
+      setQuestion("");
     }
   };
 
@@ -53,13 +51,17 @@ const ChatMedical = () => {
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Caja de historial de conversación */}
       <div className="conversation-box">
         {conversation.map((msg, index) => (
           <div
             key={index}
             className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
           >
+            <img
+              src={msg.sender === "user" ? "/images/user-icon.png" : "/images/bot-icon.png"}
+              alt={msg.sender === "user" ? "User" : "Bot"}
+              className="message-icon"
+            />
             <p>{msg.text}</p>
           </div>
         ))}

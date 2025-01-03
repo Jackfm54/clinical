@@ -14,8 +14,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [healthData, setHealthData] = useState([]);
-  const [predictions, setPredictions] = useState(null); // Para guardar predicciones
-  const [notifications, setNotifications] = useState([]);
+  const [predictions, setPredictions] = useState(null);
   const [newHealthData, setNewHealthData] = useState({
     heartRate: "",
     bloodPressure: "",
@@ -58,14 +57,6 @@ const Dashboard = () => {
       setUser(userData);
       fetchHealthData(userData.id);
     }
-
-    socket.on("notification", (notification) => {
-      setNotifications((prev) => [...prev, notification]);
-    });
-
-    return () => {
-      socket.off("notification");
-    };
   }, [navigate]);
 
   const fetchHealthData = async (userId) => {
@@ -73,11 +64,10 @@ const Dashboard = () => {
       const response = await api.get(`/health-data/${userId}`);
       setHealthData(response.data);
 
-      // Solicitar predicciones al backend
       const predictionResponse = await api.post("/ai/predict", {
         healthData: response.data,
       });
-      setPredictions(predictionResponse.data); // Guardar predicciones
+      setPredictions(predictionResponse.data);
     } catch (error) {
       console.error("Failed to fetch health data:", error);
     }

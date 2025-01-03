@@ -6,7 +6,7 @@ import "../styles/Dashboard.css";
 import io from "socket.io-client";
 import MedicalChat from "../components/MedicalChat";
 
-// Configuración de socket.io
+// Socket io
 const socket = io("http://localhost:5001");
 
 const Dashboard = () => {
@@ -20,8 +20,28 @@ const Dashboard = () => {
     oxygenLevel: "",
   });
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = healthData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Buttons pagination
+  const nextPage = () => {
+    if (currentPage < Math.ceil(healthData.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   useEffect(() => {
-    // Verificar si el usuario está logueado
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
       navigate("/login");
@@ -31,12 +51,10 @@ const Dashboard = () => {
       fetchHealthData(userData.id);
     }
 
-    // Configurar socket.io para escuchar notificaciones
     socket.on("notification", (notification) => {
       setNotifications((prev) => [...prev, notification]);
     });
 
-    // Limpiar listeners de socket.io al desmontar el componente
     return () => {
       socket.off("notification");
     };
@@ -81,7 +99,6 @@ const Dashboard = () => {
           <p>Your email: {user.email}</p>
           <LogoutButton />
 
-          {/* Formulario para registrar nuevas métricas */}
           <h3>Register Your Health Data</h3>
           <form onSubmit={handleSubmitHealthData} className="health-data-form">
             <label>
@@ -120,30 +137,46 @@ const Dashboard = () => {
           {/* Mostrar historial de datos de salud */}
           <h3>Your Health Data History</h3>
           {healthData.length > 0 ? (
-            <ul className="health-data-list">
-              {healthData.map((data) => (
-                <li key={data._id}>
-                  <p>
-                    <strong>Heart Rate:</strong> {data.heartRate} bpm
-                  </p>
-                  <p>
-                    <strong>Blood Pressure:</strong> {data.bloodPressure}
-                  </p>
-                  <p>
-                    <strong>Oxygen Level:</strong> {data.oxygenLevel}%
-                  </p>
-                  <p>
-                    <strong>Date:</strong>{" "}
-                    {new Date(data.createdAt).toLocaleString()}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul className="health-data-list">
+                {currentItems.map((data) => (
+                  <li key={data._id}>
+                    <p>
+                      <strong>Heart Rate:</strong> {data.heartRate} bpm
+                    </p>
+                    <p>
+                      <strong>Blood Pressure:</strong> {data.bloodPressure}
+                    </p>
+                    <p>
+                      <strong>Oxygen Level:</strong> {data.oxygenLevel}%
+                    </p>
+                    <p>
+                      <strong>Date:</strong> {new Date(data.createdAt).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Paginador */}
+              <div className="pagination">
+                <button onClick={prevPage} disabled={currentPage === 1}>
+                  Previous
+                </button>
+                <span>
+                  Page {currentPage} of {Math.ceil(healthData.length / itemsPerPage)}
+                </span>
+                <button
+                  onClick={nextPage}
+                  disabled={currentPage === Math.ceil(healthData.length / itemsPerPage)}
+                >
+                  Next
+                </button>
+              </div>
+            </>
           ) : (
             <p>No health data available</p>
           )}
 
-          {/* Mostrar notificaciones en tiempo real */}
           <h3>Notifications</h3>
           {notifications.length > 0 ? (
             <ul>

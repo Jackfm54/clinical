@@ -88,3 +88,28 @@
 	font-size: 1.2rem;
 	color: #777;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+	gap: 10px;
+}
+
+.pagination button {
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f20909;
+	cursor: pointer;
+}
+
+.pagination button:disabled {
+	background-color: #e0e0e0;
+	cursor: not-allowed;
+}
+
+.pagination span {
+	font-weight: bold;
+}

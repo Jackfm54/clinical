@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: ./clinical-backend
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb+srv://clinical:12345@cluster0.0hr6m.mongodb.net/miDB?retryWrites=true&w=majority
+    volumes:
+      - ./clinical-backend:/app
+
+  frontend:
+    build:
+      context: ./front/health-surveillance
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

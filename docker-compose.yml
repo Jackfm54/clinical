@@ -6,8 +6,11 @@ services:
       - "5001:5001"
     environment:
       - MONGO_URI=mongodb+srv://clinical:12345@cluster0.0hr6m.mongodb.net/miDB?retryWrites=true&w=majority
+      - OLLAMA_URL=http://host.docker.internal:11434
     volumes:
       - ./clinical-backend:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   frontend:
     build:

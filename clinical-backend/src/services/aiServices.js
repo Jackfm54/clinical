@@ -1,30 +1,30 @@
-const { exec } = require("child_process");
+const axios = require("axios");
 
 /**
- * Ejecuta el modelo Ollama localmente y devuelve la respuesta.
+ * Ejecuta el modelo Ollama localmente a través de una API HTTP y devuelve la respuesta.
  * @param {Object} options - Configuración del modelo.
  * @param {string} options.prompt - Texto del prompt a enviar al modelo.
- * @param {string} [options.model="monotykamary/medichat-llama3"] - Modelo a ejecutar.
+ * @param {string} [options.model="ALIENTELLIGENCE/medicaldiagnostictools"] - Modelo a ejecutar.
  * @returns {Promise<string>} - Respuesta del modelo.
  */
 const inferRisk = async ({ prompt, model = "ALIENTELLIGENCE/medicaldiagnostictools" }) => {
-  return new Promise((resolve, reject) => {
+  const OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
+
+  try {
     console.log("Executing model:", model);
     console.log("Prompt being sent:", prompt);
 
-    // Construir el comando con echo y ollama
-    const command = `echo "${prompt}" | ollama run ${model}`;
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error("Exec error:", stderr || error.message);
-        return reject(new Error("AI model execution failed."));
-      }
-
-      console.log("Model Response:", stdout.trim());
-      resolve(stdout.trim());
+    const response = await axios.post(`${OLLAMA_URL}/api/chat`, {
+      model,
+      messages: [{ role: "user", content: prompt }],
     });
-  });
+
+    console.log("Model Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error executing model:", error.message);
+    throw new Error("AI model execution failed.");
+  }
 };
 
 const regression = (healthData) => {
